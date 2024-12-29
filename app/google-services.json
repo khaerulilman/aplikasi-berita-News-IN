@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "221571471522",
+    "firebase_url": "https://myappnews-fa569-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "myappnews-fa569",
+    "storage_bucket": "myappnews-fa569.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221571471522:android:19481a27362b2d04c65ffb",
+        "android_client_info": {
+          "package_name": "let.pam.newsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaDypdFvvn1ohrPDdzk71daF0hFiECsd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
