@@ -26,10 +26,10 @@ class LoginActivity : AppCompatActivity() {
         sessionManager = SessionManager(applicationContext)
 
         // Check if user is already logged in
-        if (sessionManager.checkLogin()) {
-            startNewsActivity()
+        if (sessionManager.checkLogin() && !intent.getBooleanExtra("ACCOUNT_DELETED", false)) {
+            // If logged in and not coming from account deletion, go to NewsActivity
+            startActivity(Intent(this, NewsActivity::class.java))
             finish()
-            return
         }
 
         etUsername = findViewById(R.id.etUsername)

@@ -12,4 +12,12 @@ class UserRepository(private val firebaseDAO: FirebaseDAO) {
     suspend fun getUserProfile(username: String): User? {
         return firebaseDAO.getUserProfile(username)
     }
+
+    suspend fun deleteUser(username: String): Boolean {
+        return firebaseDAO.deleteUser(username)
+    }
+
+    fun logout() {
+        firebaseDAO.logout()
+    }
 }

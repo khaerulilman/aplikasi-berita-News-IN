@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import let.pam.newsapp.R
 import let.pam.newsapp.models.Article
 
-class NewsAdapter : RecyclerView.Adapter<let.pam.newsapp.adapters.NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

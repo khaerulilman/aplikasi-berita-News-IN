@@ -16,13 +16,7 @@ class NewsViewModelProviderFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NewsViewModel::class.java)) {
-            return NewsViewModel(
-                app,
-                newsApiRepository,
-                newsFavoriteRepository,
-                userRepository,
-                username
-            ) as T
+            return NewsViewModel(app, newsApiRepository, newsFavoriteRepository, userRepository, username) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

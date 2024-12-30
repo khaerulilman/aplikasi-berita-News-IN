@@ -143,6 +143,16 @@ class NewsViewModel(
         }
     }
 
+    fun deleteUserAccount(onComplete: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val success = userRepository.deleteUser(username)
+            onComplete(success)
+        }
+    }
+
+    fun logout() {
+        userRepository.logout()
+    }
 
     // internet connection
     private fun internetConnection(context: Context): Boolean {

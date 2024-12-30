@@ -57,6 +57,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    // logout in profile fragment
     private fun performLogout() {
         // Clear session
         sessionManager.logout()

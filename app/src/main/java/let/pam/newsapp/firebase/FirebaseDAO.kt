@@ -123,4 +123,17 @@ class FirebaseDAO {
             false
         }
     }
+
+    suspend fun deleteUser(username: String): Boolean {
+        return try {
+            getUsersRef().child(username).removeValue().await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun logout() {
+        currentUsername = null
+    }
 }

@@ -8,7 +8,7 @@ data class Article(
     val content: String? = null,
     val description: String? = null,
     val publishedAt: String? = null,
-    val source: Source? = null,  // Make sure Source class is also correctly defined and has a no-argument constructor
+    val source: Source? = null,
     val title: String? = null,
     val url: String? = null,
     val urlToImage: String? = null
