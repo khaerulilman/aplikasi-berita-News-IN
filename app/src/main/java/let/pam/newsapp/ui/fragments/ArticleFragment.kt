@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -42,7 +43,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         authorText = view.findViewById(R.id.articleAuthor)
         articleImage = view.findViewById(R.id.articleImage)
         bookmarkButton = view.findViewById(R.id.btnBookmark)
-        val urlText = view.findViewById<TextView>(R.id.articleUrl)
 
         newsViewModel = (activity as NewsActivity).newsViewModel
         val article = args.article
@@ -53,6 +53,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
+
 
         binding.btnBookmark.setOnClickListener {
             if (newsViewModel.isArticleSaved(publishedAt)) {
@@ -69,16 +70,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             }
         }
 
-        urlText.setOnClickListener {
-            article.url?.let { url ->
-                try {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    Snackbar.make(view, "Error opening link", Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        }
+        setupWebViewButton()
 
         newsViewModel.getFavoriteNewsByPublishedAt(publishedAt)
 
@@ -91,26 +83,63 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }
     }
 
+    private fun setupWebViewButton() {
+        binding.btnGoToWebview.setOnClickListener {
+            val url = args.article.url
+            if (!url.isNullOrEmpty()) {
+                val action = ArticleFragmentDirections.actionArticleFragmentToWebViewFragment(url)
+                findNavController().navigate(action)
+            } else {
+                Snackbar.make(binding.root, "URL tidak tersedia", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun setContent(article: Article) {
         titleText.text = article.title
         sourceText.text = article.source?.name ?: ""
         dateTimeText.text = article.publishedAt?.substring(0, 10)
-        authorText.text = article.author
+        authorText.text = article.author ?: "Anonym"
 
         val fullContent = buildString {
-            article.content?.let { append(it.substringBefore("[")) }
+            article.content?.let {
+                if (it.contains("[")) {
+                    append(it.substringBefore("["))
+                } else {
+                    append(it) // Use full content if no "[" present
+                }
+            }
             append("\n\n")
             article.description?.let { append(it) }
         }
 
-        contentText.text = fullContent
-        val readMoreText: TextView = requireView().findViewById(R.id.articleReadMoreText)
-        val urlText: TextView = requireView().findViewById(R.id.articleUrl)
+        // Remove HTML tags
+        val contentWithoutHtmlTags = fullContent.replace(Regex("<[^>]*>"), "")
 
-        readMoreText.visibility = if (article.url.isNullOrEmpty()) View.GONE else View.VISIBLE
-        urlText.visibility = if (article.url.isNullOrEmpty()) View.GONE else View.VISIBLE
-        urlText.text = article.url ?: "No URL provided"
+        // Split the content into paragraphs
+        val paragraphs = contentWithoutHtmlTags.trim().split("\n\n")
+
+        // Process each paragraph by removing the last word
+        val contentWithoutLastWordInEachParagraph = paragraphs.joinToString("\n\n") { paragraph ->
+            val words = paragraph.split(" ")
+            if (words.size > 1) {
+                words.dropLast(1).joinToString(" ") // Remove last word from each paragraph
+            } else {
+                "" // If the paragraph has only one word, return an empty string
+            }
+        }
+
+        // Limit content to a maximum of 24 words
+        val limitedContent = contentWithoutLastWordInEachParagraph.split(" ").let { words ->
+            if (words.size > 24) {
+                words.take(24).joinToString(" ") + "..." // Add ellipsis if truncated
+            } else {
+                words.joinToString(" ")
+            }
+        }
+
+        contentText.text = limitedContent.trim() // Ensure no extra spaces
 
         Glide.with(this)
             .load(article.urlToImage)
@@ -118,4 +147,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             .error(R.drawable.image_newspaper)
             .into(articleImage)
     }
+
+
 }

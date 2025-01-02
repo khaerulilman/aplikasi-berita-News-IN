@@ -25,14 +25,15 @@
         android:id="@+id/articleFragment"
         android:name="let.pam.newsapp.ui.fragments.ArticleFragment"
         android:label="ArticleFragment">
-
         <argument
             android:name="article"
             app:argType="let.pam.newsapp.models.Article" />
-
         <action
             android:id="@+id/actionArticleFragmentSelf"
             app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_articleFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
 
     <fragment
@@ -42,6 +43,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_hubungiFragment"
+            app:destination="@id/hubungiFragment" />
     </fragment>
 
     <fragment
@@ -53,6 +57,40 @@
             app:destination="@id/profileFragment"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_verifyOtpFragment"
+            app:destination="@id/verifyOtpFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/verifyOtpFragment"
+        android:name="let.pam.newsapp.ui.fragments.VerifyOtpFragment"
+        android:label="VerifyOtpFragment">
+        <action
+            android:id="@+id/action_verifyOtpFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/hubungiFragment"
+        android:name="let.pam.newsapp.ui.fragments.HubungiFragment"
+        android:label="HubungiFragment">
+        <action
+            android:id="@+id/action_hubungiFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="let.pam.newsapp.ui.fragments.WebViewFragment"
+        android:label="WebViewFragment">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+
+
 
 </navigation>

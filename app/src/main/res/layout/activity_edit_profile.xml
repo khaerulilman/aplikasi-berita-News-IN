@@ -34,6 +34,19 @@
         android:layout_marginTop="150dp"
         android:enabled="false" />
 
+    <!-- Input untuk Email -->
+    <EditText
+        android:id="@+id/tvEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Enter your Email"
+        android:inputType="text"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvUsername"
+        android:layout_marginTop="16dp"/>
+
     <!-- Input untuk Full Name -->
     <EditText
         android:id="@+id/tvFullName"
@@ -44,7 +57,7 @@
         android:padding="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUsername"
+        app:layout_constraintTop_toBottomOf="@id/tvEmail"
         android:layout_marginTop="16dp" />
 
     <!-- Input untuk Password -->

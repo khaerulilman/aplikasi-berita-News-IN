@@ -21,12 +21,6 @@ class SessionManager(private val context: Context) {
         }
     }
 
-    fun getUserDetails(): HashMap<String, String?> {
-        return hashMapOf<String, String?>().apply {
-            put(KEY_USERNAME, sharedPreferences.getString(KEY_USERNAME, null))
-        }
-    }
-
     // Add direct method to get username
     fun getUsername(): String? {
         return sharedPreferences.getString(KEY_USERNAME, null)

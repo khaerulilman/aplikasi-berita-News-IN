@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorites"
+        android:text="Berita Favorit"
         android:textSize="30sp"
         android:fontFamily="@font/archivo_bold"
         android:textColor="@color/primaryColor"

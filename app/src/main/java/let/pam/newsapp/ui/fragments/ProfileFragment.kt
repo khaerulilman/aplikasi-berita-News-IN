@@ -2,6 +2,7 @@ package let.pam.newsapp.ui.fragments
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,6 +56,11 @@ class ProfileFragment : Fragment() {
                 .setNegativeButton("No", null)
                 .show()
         }
+
+        // Handle "Hubungi Kami" button click to navigate to HubungiFragment
+        binding.btnGoToHubungikami.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_profileFragment_to_hubungiFragment)
+        }
     }
 
     // logout in profile fragment
@@ -75,8 +81,10 @@ class ProfileFragment : Fragment() {
             if (user != null) {
                 binding.apply {
                     tvUsername.text = user.username ?: "No username"
+                    tvEmail.text = user.email ?: "No Email"
                     tvFullName.text = user.fullName ?: "No full name"
                     tvPassword.text = user.password ?: "No Password"
+
                 }
             } else {
                 Toast.makeText(context, "Failed to load profile", Toast.LENGTH_SHORT).show()

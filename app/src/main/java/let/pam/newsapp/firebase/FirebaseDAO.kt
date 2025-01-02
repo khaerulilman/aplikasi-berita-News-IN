@@ -106,6 +106,7 @@ class FirebaseDAO {
 
     suspend fun updateUserProfile(
         originalUsername: String,
+        newEmail: String,
         newFullName: String,
         newPassword: String,
         newDisplayUsername: String
@@ -113,6 +114,7 @@ class FirebaseDAO {
         return try {
             val updates = hashMapOf<String, Any>(
                 "username" to newDisplayUsername,
+                "newEmail" to newEmail,
                 "fullName" to newFullName,
                 "password" to newPassword
             )
