@@ -63,14 +63,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="4dp">
-                <TextView
-                    android:id="@+id/articleDateTimeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tanggal: "
-                    android:textSize="11sp"
-                    android:textColor="@color/grey_text"
-                    android:fontFamily="@font/archivo" />
+
                 <TextView
                     android:id="@+id/articleDateTime"
                     android:layout_width="wrap_content"

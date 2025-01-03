@@ -18,6 +18,10 @@ import let.pam.newsapp.databinding.FragmentArticleBinding
 import let.pam.newsapp.models.Article
 import let.pam.newsapp.ui.NewsActivity
 import let.pam.newsapp.ui.ViewModel.NewsViewModel
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class ArticleFragment : Fragment(R.layout.fragment_article) {
     private lateinit var newsViewModel: NewsViewModel
@@ -99,8 +103,23 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     private fun setContent(article: Article) {
         titleText.text = article.title
         sourceText.text = article.source?.name ?: ""
-        dateTimeText.text = article.publishedAt?.substring(0, 10)
         authorText.text = article.author ?: "Anonym"
+
+        // Konversi waktu ke rentang waktu
+        val publishedAt = article.publishedAt
+        if (publishedAt != null) {
+            val formatter = DateTimeFormatter.ISO_DATE_TIME
+            val articleDateTimeParsed = LocalDateTime.parse(publishedAt, formatter)
+                .atZone(ZoneId.of("UTC"))
+                .withZoneSameInstant(ZoneId.of("Asia/Jakarta"))
+                .toLocalDateTime()
+            val now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"))
+
+            val duration = ChronoUnit.SECONDS.between(articleDateTimeParsed, now)
+            dateTimeText.text = getReadableTimeDifference(duration)
+        } else {
+            dateTimeText.text = "Waktu tidak tersedia"
+        }
 
         val fullContent = buildString {
             article.content?.let {
@@ -148,5 +167,18 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             .into(articleImage)
     }
 
+    // Fungsi untuk mendapatkan rentang waktu dalam format string
+    private fun getReadableTimeDifference(durationInSeconds: Long): String {
+        val seconds = durationInSeconds % 60
+        val minutes = (durationInSeconds / 60) % 60
+        val hours = (durationInSeconds / (60 * 60)) % 24
+        val days = durationInSeconds / (60 * 60 * 24)
 
+        return when {
+            days > 0 -> "$days hari ${hours} jam yang lalu"
+            hours > 0 -> "$hours jam ${minutes} menit yang lalu"
+            minutes > 0 -> "$minutes menit ${seconds} detik yang lalu"
+            else -> "$seconds detik yang lalu"
+        }
+    }
 }

@@ -18,9 +18,6 @@ import let.pam.newsapp.databinding.FragmentHeadlinesBinding
 import let.pam.newsapp.ui.NewsActivity
 import let.pam.newsapp.ui.ViewModel.NewsViewModel
 import let.pam.newsapp.util.Resource
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class HeadlinesFragment : Fragment(R.layout.fragment_headlines) {
 
@@ -56,11 +53,22 @@ class HeadlinesFragment : Fragment(R.layout.fragment_headlines) {
         }
 
         newsViewModel.headlines.observe(viewLifecycleOwner, Observer { response ->
+            binding.swipeRefreshLayout.isRefreshing = false
+
             when (response) {
                 is Resource.Success<*> -> {
                     hideErrorMessage()
                     response.data?.let { newsResponse ->
                         newsAdapter.differ.submitList(newsResponse.articles.toList())
+
+                        // Tampilkan toast ketika menggunakan data sebelumnya
+                        if (newsViewModel.getPreviousHeadlines() != null) {
+                            Toast.makeText(
+                                context,
+                                "Menampilkan berita sebelumnya",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
 
@@ -73,9 +81,10 @@ class HeadlinesFragment : Fragment(R.layout.fragment_headlines) {
             }
         })
 
-        // Set tanggal sebelumnya ke tvDate
-        val previousDates = getPreviousDates()
-        binding.tvDate.text = previousDates
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            // Panggil getHeadlinesNews dengan parameter refresh = true
+            newsViewModel.getHeadlinesNews("id", true)
+        }
 
         binding.itemHeadlinesError.retryButton.setOnClickListener {
             newsViewModel.getHeadlinesNews("id")
@@ -101,22 +110,6 @@ class HeadlinesFragment : Fragment(R.layout.fragment_headlines) {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-    }
-
-    fun getPreviousDates(): String {
-        val dateFormat = SimpleDateFormat("dd-MM-yy", Locale.getDefault())
-        val calendar = Calendar.getInstance()
-
-        // Tanggal pertama sebelumnya
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
-        val previousDate1 = dateFormat.format(calendar.time)
-
-        // Tanggal kedua sebelumnya
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
-        val previousDate2 = dateFormat.format(calendar.time)
-
-        // Format hasilnya
-        return "Diperbarui Pada $previousDate1"
     }
 
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/tvNews"
         android:layout_width="wrap_content"
@@ -17,33 +18,27 @@
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(Date)"
-        android:textSize="15sp"
-        android:fontFamily="@font/archivo_bold"
-        android:textColor="@color/primaryColor"
-        android:textStyle="bold"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toTopOf="@id/tvNews"
-        app:layout_constraintStart_toEndOf="@id/tvNews"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerHeadlines"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="50dp"
         android:layout_marginTop="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@id/tvWeekInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerHeadlines"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="50dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/tvWeekInfo"
@@ -70,4 +65,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

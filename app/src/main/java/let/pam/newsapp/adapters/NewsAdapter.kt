@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import let.pam.newsapp.R
 import let.pam.newsapp.models.Article
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
@@ -62,7 +66,22 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
             articleSource.text = article.source?.name
             articleTitle.text = article.title
-            articleDateTime.text = article.publishedAt?.substring(0, 10)
+
+            // Konversi waktu ke format rentang waktu
+            val publishedAt = article.publishedAt // Contoh: "2025-01-01T12:00:00Z"
+            if (publishedAt != null) {
+                val formatter = DateTimeFormatter.ISO_DATE_TIME
+                val articleDateTimeParsed = LocalDateTime.parse(publishedAt, formatter)
+                    .atZone(ZoneId.of("UTC"))
+                    .withZoneSameInstant(ZoneId.of("Asia/Jakarta"))
+                    .toLocalDateTime()
+                val now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"))
+
+                val duration = ChronoUnit.SECONDS.between(articleDateTimeParsed, now)
+                articleDateTime.text = getReadableTimeDifference(duration)
+            } else {
+                articleDateTime.text = "Waktu tidak tersedia"
+            }
 
             setOnClickListener {
                 onItemClickListener?.let {
@@ -71,6 +90,22 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             }
         }
     }
+
+    // Fungsi untuk mendapatkan rentang waktu dalam format string
+    private fun getReadableTimeDifference(durationInSeconds: Long): String {
+        val seconds = durationInSeconds % 60
+        val minutes = (durationInSeconds / 60) % 60
+        val hours = (durationInSeconds / (60 * 60)) % 24
+        val days = durationInSeconds / (60 * 60 * 24)
+
+        return when {
+            days > 0 -> "$days hari ${hours} jam yang lalu"
+            hours > 0 -> "$hours jam ${minutes} menit yang lalu"
+            minutes > 0 -> "$minutes menit ${seconds} detik yang lalu"
+            else -> "$seconds detik yang lalu"
+        }
+    }
+
 
     fun setOnItemClickListener(listener: (Article) -> Unit) {
         onItemClickListener = listener

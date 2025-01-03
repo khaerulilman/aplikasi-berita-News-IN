@@ -34,6 +34,8 @@ class NewsViewModel(
     val headlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var headlinesPage = 1
     private var headlinesResponse: NewsResponse? = null
+    private var previousHeadlines: NewsResponse? = null
+    private var isRefreshing = false
 
     // article favorite val
     private val _articleSaveStatus = MutableLiveData<Map<String, Boolean>>(mapOf())
@@ -48,13 +50,36 @@ class NewsViewModel(
         getHeadlinesNews("us")
     }
 
-    fun getHeadlinesNews(countryCode: String) = viewModelScope.launch {
-        headlinesNewsRemote(countryCode)
+    fun getHeadlinesNews(countryCode: String, refresh: Boolean = false) {
+        if (refresh) {
+            // Simpan headlines saat ini sebagai previous sebelum refresh
+            headlinesResponse?.let {
+                previousHeadlines = NewsResponse(it.articles.toMutableList(), it.status, it.totalResults)
+            }
+            // Reset page dan response untuk mendapatkan data baru
+            headlinesPage = 1
+            headlinesResponse = null
+            isRefreshing = true
+        }
+        viewModelScope.launch {
+            headlinesNewsRemote(countryCode)
+        }
     }
+
+    fun getPreviousHeadlines(): NewsResponse? {
+        return previousHeadlines
+    }
+
 
     private fun handleHeadlinesResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
+
+                if (isRefreshing && previousHeadlines != null) {
+                    isRefreshing = false
+                    return Resource.Success(previousHeadlines!!)
+                }
+
                 headlinesPage++
 
                 // Get current date and date from 1 week ago
