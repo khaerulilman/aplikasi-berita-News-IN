@@ -1,5 +1,8 @@
 # aplikasi-berita-News-IN
 
+
+
+Preview Fitur Fitur pada aplikasi BeritaIN
 <img src="https://github.com/user-attachments/assets/4cd05d54-a9a9-436c-acc2-4d736c2e0dee" width="200" />
 <img src="https://github.com/user-attachments/assets/aa177b8c-73aa-4fed-9ef4-deca60d43b1b" width="200" />
 <img src="https://github.com/user-attachments/assets/b2cb644b-4cda-4033-982f-1f059aa8ca8d" width="200" />
