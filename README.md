@@ -42,10 +42,10 @@ Berikut adalah beberapa tampilan dari aplikasi **News IN**:
 
 ## 🚀 **Tim Pengembang**  
 Kami adalah tim yang berdedikasi untuk memberikan pengalaman membaca berita terbaik:  
-- **Ilman** - Pengembang fitur **Profile**.  
-- **Ahsan** - Pengembang fitur **Headlines** dan **Article & Web View**.  
-- **Yupi** - Pengembang fitur **Favorite**.  
-- **King Nopid** - Pengembang fitur **Login & Register**.  
+- **M khaerul ilman (1227050073)** - Pengembang fitur **Profile**.  
+- **M Ahsani Taqwim ()1227050083** - Pengembang fitur **Headlines** dan **Article & Web View**.  
+- **Luthfi Afiyah (1227050065)** - Pengembang fitur **Favorite**.  
+- **M Nopid Andriansyah (1227050091)** - Pengembang fitur **Login & Register**.  
 
 ---
 
