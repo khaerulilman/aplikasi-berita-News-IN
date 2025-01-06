@@ -1,6 +1,10 @@
 # 📱 Aplikasi Berita **News IN**  
 **News IN** adalah aplikasi berita terkini yang dirancang untuk memberikan pengalaman membaca berita yang relevan, terpercaya, dan nyaman. Dengan fitur-fitur canggih, News IN memastikan Anda selalu mendapatkan informasi terbaru sesuai minat Anda.  
 
+Link Google Play Store
+https://play.google.com/store/apps/details?id=let.pam.newsapp
+
+
 ---
 
 ## 🎥 **Preview Aplikasi News IN**  
